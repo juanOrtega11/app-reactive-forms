@@ -1,9 +1,34 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-basic-page',
-  imports: [JsonPipe],
+  imports: [JsonPipe, ReactiveFormsModule],
   templateUrl: './basic-page.html',
 })
-export class BasicPage {}
+export class BasicPage {
+  // Nueva forma con fornm builder
+  private fb = inject(FormBuilder);
+
+  myForm = this.fb.group({
+    // name: ['', /* Validadores síncronos */, /** Validadores Asíncronos */],
+    name: ['', [Validators.minLength(3)]],
+    price: [0, [Validators.min(10)]],
+    inStorage: [0],
+  });
+
+  // Antigua forma con formGroup
+  /*
+  myForm = new FormGroup({
+    name: new FormControl(''),
+    price: new FormControl(0),
+    inStorage: new FormControl(0),
+  });*/
+}
