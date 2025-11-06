@@ -29,9 +29,14 @@
           placeholder="Agregar favorito"
           [formControl]="newFavorite"
           (keydown.enter)="addToFavorites()"
+          (keydown.enter)="$event.preventDefault()"
         />
 
-        <button class="btn btn-outline-primary" type="button">
+        <button
+          class="btn btn-outline-primary"
+          type="button"
+          (click)="addToFavorites()"
+        >
           Agregar favorito
         </button>
       </div>
@@ -42,12 +47,12 @@
   <div class="mb-3 row">
     <label class="col-sm-3 col-form-label">Favoritos</label>
     <div class="col-sm-9" formArrayName="favoriteGames">
-      @for (favoriteGame of favoriteGames.controls; track $index; let i =
-      $index) {
+      @for ( favoriteGame of favoriteGames.controls; track trackByItemId($index,
+      favoriteGame); let i = $index; ) {
 
       <div class="mb-1">
-        <div class="input-group">
-          <input class="form-control" [formControlName]="i" />
+        <div class="input-group" [formGroupName]="i">
+          <input class="form-control" formControlName="name" />
 
           <button
             class="btn btn-outline-danger"
