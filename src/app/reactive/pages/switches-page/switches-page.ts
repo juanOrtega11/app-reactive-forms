@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { FormUtils } from '../../../utils/form-utils';
 
 @Component({
   selector: 'app-switches-page',
@@ -14,7 +15,7 @@ import {
 })
 export class SwitchesPage {
   private fb = inject(FormBuilder);
-
+  formUtils = FormUtils;
   myForm: FormGroup = this.fb.group({
     gender: [, Validators.required],
     wantNotifications: [true],
@@ -22,6 +23,7 @@ export class SwitchesPage {
   });
 
   onSubmit() {
+    this.myForm.markAllAsTouched();
     console.log(this.myForm.value);
   }
 }
