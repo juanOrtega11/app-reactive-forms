@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col">
-    <form autocomplete="off">
+    <form autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSubmit()">
       <!-- Nombre -->
       <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Nombre y apellido</label>
@@ -12,11 +12,16 @@
             type="text"
             class="form-control"
             placeholder="Nombre del usuario"
+            formControlName="name"
           />
-
+          @if (formUtils.isValidField(myForm, 'name')) {
           <span class="form-text text-danger">
-            Debe de ser en formato de nombre y apellido
+            {{formUtils.getFieldError(myForm, 'name')}}
           </span>
+          }
+          <!-- <span class="form-text text-danger">
+            Debe de ser en formato de nombre y apellido
+          </span> -->
         </div>
       </div>
 
@@ -28,6 +33,7 @@
             type="email"
             class="form-control"
             placeholder="Email del usuario"
+            formControlName="email"
           />
           <span class="form-text text-danger">
             mensaje de error del email
@@ -43,6 +49,7 @@
             type="text"
             class="form-control"
             placeholder="Nombre código del usuario"
+            formControlName="username"
           />
           <span class="form-text text-danger">
             El username no puede ser Strider
@@ -58,8 +65,9 @@
             type="password"
             class="form-control"
             placeholder="Password de su cuenta"
+            formControlName="password"
           />
-
+          <!-- @if (formUtils.getTextError()) {} -->
           <span class="form-text text-danger">
             La contraseña debe de ser mayor de 6 caracteres.
           </span>
@@ -74,6 +82,7 @@
             type="password"
             class="form-control"
             placeholder="Confirmar la contraseña"
+            formControlName="password2"
           />
 
           <span class="form-text text-danger">
@@ -91,23 +100,23 @@
   </div>
 </div>
 
-<h2>Form Valid:</h2>
-<h2>Form Status:</h2>
-<h2>Form Pending:</h2>
+<h2>Form Valid: {{myForm.valid}}</h2>
+<h2>Form Status: {{myForm.status}}</h2>
+<h2>Form Pending: {{myForm.pending}}</h2>
 <h2>Form errors</h2>
-<pre>{{ 'formulario' | json }}</pre>
+<pre>{{ myForm.errors | json }}</pre>
 
 <h5>Nombre</h5>
-<pre>{{ 'formulario' | json }}</pre>
+<pre>{{ myForm.controls["name"].errors | json }}</pre>
 
 <h5>Email</h5>
-<pre>{{ 'formulario' | json }}</pre>
+<pre>{{ myForm.controls["email"].errors | json }}</pre>
 
 <h5>Username</h5>
-<pre>{{ 'formulario' | json }}</pre>
+<pre>{{ myForm.controls["username"].errors | json }}</pre>
 
 <h5>Password</h5>
-<pre>{{ 'formulario' | json }}</pre>
+<pre>{{ myForm.controls["password"].errors | json }}</pre>
 
 <h5>Confirmar</h5>
-<pre>{{ 'formulario' | json }}</pre>
+<pre>{{ myForm.controls["password2"].errors | json }}</pre>
