@@ -5,6 +5,14 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 
+// async function sleep() {
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve(true);
+//     }, 2500);
+//   });
+// }
+
 export class FormUtils {
   // expresiones regulares
   static namePattern = '([a-zA-Z]+) ([a-zA-Z]+)';
@@ -25,6 +33,8 @@ export class FormUtils {
 
         case 'email':
           return `El valor ingresado no es un correo electrónico`;
+        case 'emailTaken':
+          return `El correo electrónico ya está siendo usado por otro usuario`;
 
         case 'pattern':
           if (errors['pattern'].requiredPattern === FormUtils.emailPattern) {
@@ -68,5 +78,17 @@ export class FormUtils {
 
       return field1Value === field2Value ? null : { passwordsNotEqual: true };
     };
+  }
+
+  static async checkingServerResponse(
+    control: AbstractControl
+  ): Promise<ValidationErrors | null> {
+    console.log('validando en servidor');
+    // await sleep(); // esperara 2 seg
+    const formValue = control.value;
+    if (formValue === 'hola@mundo.com') {
+      return { emailTaken: true };
+    }
+    return null;
   }
 }

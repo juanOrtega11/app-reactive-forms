@@ -28,6 +28,7 @@ export class RegisterPage {
       email: [
         '',
         [Validators.required, Validators.pattern(FormUtils.emailPattern)],
+        [FormUtils.checkingServerResponse],
       ],
       username: [
         '',
