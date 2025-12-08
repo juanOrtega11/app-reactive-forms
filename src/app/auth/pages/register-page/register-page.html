@@ -87,10 +87,12 @@
             placeholder="Confirmar la contraseña"
             formControlName="password2"
           />
+          @if (myForm.errors && myForm.touched) {
 
           <span class="form-text text-danger">
             Las contraseñas deben de ser iguales
           </span>
+          }
         </div>
       </div>
 
