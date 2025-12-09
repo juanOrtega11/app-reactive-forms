@@ -54,9 +54,13 @@
             placeholder="Nombre código del usuario"
             formControlName="username"
           />
+          @if (formUtils.isValidField(myForm, 'username')) {
           <span class="form-text text-danger">
+            <!-- {{formUtils.getFieldError(myForm, 'noStrider')}} -->
             El username no puede ser Strider
           </span>
+
+          }
         </div>
       </div>
 
