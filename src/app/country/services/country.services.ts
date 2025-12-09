@@ -7,10 +7,10 @@ import { Country } from '../interfaces/country.interface';
 export class CountryService {
   constructor() {}
 
-  private baseUrl = 'http://restcountries.com/v3.1';
+  private baseUrl = 'https://restcountries.com/v3.1';
   private http = inject(HttpClient);
 
-  private _regions = ['Africa', 'Americas', 'Asia', 'Europa', 'Oceania'];
+  private _regions = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'];
 
   get regions(): string[] {
     return [...this._regions];
@@ -20,7 +20,7 @@ export class CountryService {
     if (!region) return of([]);
     console.log({ region });
 
-    const url = `${this.baseUrl}/regions/${region}?fields=cca3,name,borders`;
+    const url = `${this.baseUrl}/region/${region}?fields=cca3,name,borders`;
     return this.http.get<Country[]>(url);
   }
 
