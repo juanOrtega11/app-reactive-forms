@@ -2,7 +2,7 @@ import { JsonPipe } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CountryService } from '../../services/country.services';
-import { switchMap, tap } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs';
 import { Country } from '../../interfaces/country.interface';
 
 @Component({
@@ -28,8 +28,10 @@ export class CountryPage {
   onFormChanged = effect((onCleanup) => {
     // el signo de admiracion significa que siempre va a existir un valor
     const regionSubscription = this.onRegionChanged();
+    const countryCodeSubscription = this.onCountryChanged();
     onCleanup(() => {
       regionSubscription.unsubscribe();
+      countryCodeSubscription.unsubscribe();
       // console.log('limpiado');
     });
   });
@@ -52,6 +54,24 @@ export class CountryPage {
         // console.log({ countries });
 
         this.countriesByRegion.set(countries);
+      });
+  }
+
+  onCountryChanged() {
+    return this.myForm
+      .get('country')!
+      .valueChanges.pipe(
+        tap(() => this.myForm.get('border')!.setValue('')),
+        filter((value) => value!.length > 0),
+        switchMap((alphaCode) =>
+          this.countryService.getCountryByAlphaCode(alphaCode ?? '')
+        ),
+        switchMap((country) =>
+          this.countryService.getCountryNamesByCodeArray(country.borders)
+        )
+      )
+      .subscribe((borders) => {
+        this.borders.set(borders);
       });
   }
 }
